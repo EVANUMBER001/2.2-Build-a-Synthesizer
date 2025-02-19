@@ -20,12 +20,7 @@ const keyMap = {
 
 // Play note function
 function playNote(note) {
-    synth.triggerAttack(note);
-}
-
-// Stop note function
-function stopNote(note) {
-    synth.triggerRelease(note);
+    synth.triggerAttackRelease(note, "8n"); // Play note for an eighth note duration
 }
 
 // Handle keydown events
@@ -36,16 +31,11 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Handle keyup events
-document.addEventListener('keyup', (event) => {
-    const note = keyMap[event.key.toUpperCase()];
-    if (note) {
-        stopNote(note);
-    }
-});
-
 // Control filter frequency
 const filterFreqInput = document.getElementById('filterFreq');
 filterFreqInput.addEventListener('input', () => {
     filter.frequency.value = filterFreqInput.value;
 });
+
+// Prevent automatic playback restrictions
+Tone.start();
