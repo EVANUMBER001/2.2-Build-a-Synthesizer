@@ -1,35 +1,34 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     font-family: Arial, sans-serif;
-    background-color: #282c34;
+    text-align: center;
+    background-color: #222;
     color: white;
-    height: 100vh;
 }
 
-.controls {
-    margin: 20px;
-}
-
-.keys {
+#keyboard {
     display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .key {
     width: 50px;
-    height: 150px;
-    background-color: #444;
-    border: 1px solid #222;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2px;
+    height: 100px;
+    margin: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
     cursor: pointer;
-    user-select: none;
-    transition: background-color 0.1s;
+    background-color: #444;
+    color: white;
+    transition: 0.2s;
 }
 
 .key:active {
-    background-color: #666;
+    background-color: #888;
+}
+
+#effect {
+    margin-top: 20px;
+    width: 200px;
 }

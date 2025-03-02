@@ -1,41 +1,44 @@
-// Initialize Tone.js synth
-const synth = new Tone.PolySynth(Tone.Synth).toDestination();
-const filter = new Tone.Filter(1000, "lowpass").toDestination();
-const reverb = new Tone.Reverb(1).toDestination();
-synth.connect(filter);
-filter.connect(reverb);
+// Create a polyphonic synthesizer
+const synth = new Tone.PolySynth(Tone.Synth, {
+    oscillator: { type: "sawtooth" },
+    envelope: { attack: 0.1, decay: 0.2, sustain: 0.4, release: 1 }
+}).toDestination();
+
+// Add a reverb effect
+const reverb = new Tone.Reverb({ decay: 3, wet: 0.5 }).toDestination();
+synth.connect(reverb);
 
 // Map keys to notes
 const keyMap = {
-    'A': 'C4',
-    'S': 'D4',
-    'D': 'E4',
-    'F': 'F4',
-    'G': 'G4',
-    'H': 'A4',
-    'J': 'B4',
-    'K': 'C5',
-    'L': 'D5'
+    "a": "C4",
+    "s": "D4",
+    "d": "E4",
+    "f": "F4",
+    "g": "G4",
+    "h": "A4",
+    "j": "B4",
+    "k": "C5"
 };
 
-// Play note function
+// Function to play a note
 function playNote(note) {
-    synth.triggerAttackRelease(note, "8n"); // Play note for an eighth note duration
+    synth.triggerAttackRelease(note, "8n");
 }
 
-// Handle keydown events
-document.addEventListener('keydown', (event) => {
-    const note = keyMap[event.key.toUpperCase()];
-    if (note) {
-        playNote(note);
-    }
+// Keyboard event listeners
+document.addEventListener("keydown", (event) => {
+    const note = keyMap[event.key];
+    if (note) playNote(note);
 });
 
-// Control filter frequency
-const filterFreqInput = document.getElementById('filterFreq');
-filterFreqInput.addEventListener('input', () => {
-    filter.frequency.value = filterFreqInput.value;
+// Button event listeners for clicking keys
+document.querySelectorAll(".key").forEach(button => {
+    button.addEventListener("mousedown", () => {
+        playNote(button.dataset.note);
+    });
 });
 
-// Prevent automatic playback restrictions
-Tone.start();
+// Reverb slider control
+document.getElementById("effect").addEventListener("input", (event) => {
+    reverb.wet.value = event.target.value;
+});
